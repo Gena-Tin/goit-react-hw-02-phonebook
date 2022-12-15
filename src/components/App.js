@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import css from './App.module.css';
 import ContactList from './ContactList';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
@@ -58,7 +59,7 @@ export class App extends Component {
     const visibleContacts = this.getVisibleContacts();
 
     return (
-      <div>
+      <div className={css.phonebookSection}>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
         <h2>Contacts</h2>
