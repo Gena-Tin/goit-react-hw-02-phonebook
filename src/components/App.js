@@ -12,8 +12,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: ''
   };
 
   deleteContact = contactId => {
@@ -22,24 +20,38 @@ export class App extends Component {
     }));
   };
 
-  formSubmitHandler = data =>{
+  formSubmitHandler = data => {
     console.log(data); //show contact object
-    
     this.setState(prevState => ({
-      contacts: [data, ...prevState.contacts]
+      contacts: [data, ...prevState.contacts],
     }));
-  }
+  };
+
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
 
   render() {
-    const { contacts } = this.state;
+    const { filter } = this.state;
+
+    const normalizedFilter = this.state.filter.toLowerCase();
+    console.log(normalizedFilter);
+
+    const visibleContacts = this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+    console.log(visibleContacts);
 
     return (
       <div>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
         <h2>Contacts</h2>
-        <Filter />
-        <ContactList contacts={contacts} onDeleteContact={this.deleteContact} />
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList
+          contacts={visibleContacts}
+          onDeleteContact={this.deleteContact}
+        />
       </div>
     );
   }
