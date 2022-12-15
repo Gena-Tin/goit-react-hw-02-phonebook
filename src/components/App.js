@@ -22,25 +22,40 @@ export class App extends Component {
 
   formSubmitHandler = data => {
     console.log(data); //show contact object
-    this.setState(prevState => ({
-      contacts: [data, ...prevState.contacts],
-    }));
+    const { name } = data;
+    let isAdded = false;
+
+    this.state.contacts.forEach(elem => {
+      if (elem.name.toLowerCase() === name.toLowerCase()) {
+        alert(`${name} is already in contacts`);
+        isAdded = true;
+      }
+    });
+    if (!isAdded) {
+      this.setState(prevState => ({
+        contacts: [data, ...prevState.contacts],
+      }));
+    }
   };
 
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  getVisibleContacts = () => {
+    const { contacts, filter } = this.state;
+
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
   render() {
     const { filter } = this.state;
 
-    const normalizedFilter = this.state.filter.toLowerCase();
-    console.log(normalizedFilter);
-
-    const visibleContacts = this.state.contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-    console.log(visibleContacts);
+    const visibleContacts = this.getVisibleContacts();
 
     return (
       <div>

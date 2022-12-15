@@ -9,7 +9,7 @@ class ContactForm extends Component {
   };
 
   setId = () => {
-    const addId = nanoid();
+    const addId = nanoid();//add unic ID
     this.setState({ id: addId });
   };
 
